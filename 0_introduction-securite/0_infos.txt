@@ -1,0 +1,4 @@
+
+cours: 
+email: lavauzelle@up8.edu
+site:  https://lvzl.fr/teaching/2023-24/is.html

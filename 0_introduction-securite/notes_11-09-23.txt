@@ -1,0 +1,40 @@
+ cryptographie
+ protection des données
+(hacker)
+ code
+ confidentiel
+(pare-feu)
+(malware)
+
+
+
+on va pas faire de virus/malware
+
+
+
+thème principale: cryptographie
+assurer confidentialité des données
+
+
+
+chiffrement pour la confidentialité (rendre lisible pour certain, illisisible pour d'autres)
+signature pour l'intégrité, l'authentification
+
+
+cryptograohier: CRéER promitives
+cryptanalyse:   étude de la sécurité des primitives (les tester)
+
+
+symétrique:  même clé pour les deux personnes
+asymétrique: différentes --
+
+
+
+bonne sécurité:
+attaquant doit faire 2^128 opérations
+mauvaise:
+attaquant doit faire 2^80 opérations
+
+
+
+
