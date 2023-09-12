@@ -2,6 +2,17 @@
 NB_CHAR = 29 #nb de characters possible
 
 
+#return a new dict with key and value swappped
+def dict_inverser(dico: dict) -> dict:
+    dico_return: dict = {}
+
+    for key, value in dico.items():
+        dico_return[value] = key
+
+    return dico_return
+
+
+
 
 def encode(dico, text: str) -> list[int]:
     ret = []
@@ -9,33 +20,35 @@ def encode(dico, text: str) -> list[int]:
         ret.append(dico[letter])
     return ret
 
+
 def decode(dico, text_to_decode: list[int]) -> str:
+    dico = dict_inverser(dico)
     ret = ""
     for var in text_to_decode:
         ret += dico[var]
     return ret
 
 
-def chiffre_cesar(dico, dico_inv, text, cle):
+
+#chiffre a message be replacing all character depending on the "key" (ex: if key=2, A->C)
+def chiffre_cesar(dico, text, cle):
     text_e: list[int] = encode(dico, text)
     
     for i, val in enumerate(text_e):
         text_e[i] = (text_e[i] + cle) % NB_CHAR
 
-    ret = decode(dico_inv, text_e)
+    ret = decode(dico, text_e)
     
     return ret
 
-
-def dechiffre_cesar(dico, dico_inv, text, cle):
-    ret = chiffre_cesar(dico, dico_inv, text, (NB_CHAR - cle) % NB_CHAR)
+#dechiffre a message chiffred by cesar
+def dechiffre_cesar(dico, text, cle):
+    ret = chiffre_cesar(dico, text, (NB_CHAR - cle) % NB_CHAR)
     return ret
 
 
-
-
-def plus_frequent(dico, text: str) -> str:
-    #allow_chars = 
+#return the character with the most occurences in "text"
+def plus_frequent(text: str) -> str:
     frequence = {}
 
     #on compte les occurences des char comme des débiles
@@ -58,62 +71,53 @@ def plus_frequent(dico, text: str) -> str:
 
 
 
+#crack a message chiffred by cesar
+def crack_cesar(dico: dict, text: str) -> str:
+    #in the dico characters ensemble, the average most use character is the "space"
+    #so, in a message chiffred by cesar, the char with the most occurence can be replace by the space
+    
+    most_appeared_char = plus_frequent(text)
+    key = (dico[most_appeared_char] - dico[' ']) % NB_CHAR
+    cracked_text = dechiffre_cesar(dico, text, key)
+
+    return cracked_text
 
 
-def chiffre_affine(dico, dico_inv, text, cle_a, cle_b) -> str:
+
+
+
+
+
+
+def chiffre_affine(dico, text: str, cle_part_a, cle_part_b) -> str:
+    #la permutation d'un char est donnée par la formule suivante: x -> ax + b (avec a =! 0)
     text_e: list[int] = encode(dico, text)
     
     for i, val in enumerate(text_e):
-        text_e[i] = (cle_a * text_e[i] + cle_b) % NB_CHAR
+        text_e[i] = (cle_part_a * text_e[i] + cle_part_b) % NB_CHAR
 
-    ret = decode(dico_inv, text_e)
+    ret = decode(dico, text_e)
     
     return ret
 
 
-
-
-def dechiffre_affine(dico, dico_inv, text, cle_a, cle_b) -> str:
+def dechiffre_affine(dico, text, cle_part_a, cle_part_b) -> str:
     text_e: list[int] = encode(dico, text)
-    
-    
-    for i, val in enumerate(text_e):
-        text_e[i] = (cle_a * text_e[i] + cle_b) % NB_CHAR
 
-    ret = decode(dico_inv, text_e)
-    
+    for i, val in enumerate(text_e):
+        text_e[i] = (cle_part_a * text_e[i] + cle_part_b) % NB_CHAR
+
+    ret = decode(dico, text_e)
+
     return ret
 
 
-def deux_plus_frequent(dico, text: str) -> tuple[int]:
-    #allow_chars = 
-    frequence = {}
+def deux_plus_frequent(text: str) -> tuple[int]:
+    first_most_frequent = plus_frequent(text)
+    new_text = text.replace(first_most_frequent, '')
+    second_most_frequent = plus_frequent(new_text)
 
-    #on compte les occurences des char comme des débiles
-    for letter in text:
-        if not letter in frequence:
-            frequence[letter] = 0
-        frequence[letter] += 1
-
-    #on cherche la plus grand
-    most_frequent_char = "A"
-    apparition = 0
-    for key, value in frequence.items():
-        if value > apparition:
-            most_frequent_char = key
-            apparition = value
-            
-    #on cherche la deuxieme plus grand
-    most_frequent_char_2 = "A"
-    apparition_2 = 0
-    for key, value in frequence.items():
-        if value > apparition:
-            most_frequent_char = key
-            apparition = value
-        
-
-    #print([(key, value) for key, value in frequence.items()])
-    return most_frequent_char, most_frequent_char_2
+    return first_most_frequent, second_most_frequent
 
 
 
@@ -124,66 +128,44 @@ def deux_plus_frequent(dico, text: str) -> tuple[int]:
 
 
 def main():
-    alpha = {}
-    alpha_inv = {}
+    alpha: dict = {} #character as key, associate with a unique integer
 
-    #fill alpha with caps alphabet and 
-    #ALPHA
+    #fill alpha with caps alphabet and characters "space", "apostrophe" and "point"
     for i in range(26):
         alpha[chr(i+65)] = i
     alpha[" "] = 26
     alpha["'"] = 27
     alpha["."] = 28
 
-    #ALPHA inversé
-    for key, value in alpha.items():
-        alpha_inv[value] = key
 
+    #ENCODE / DECODE
+    print(f"\"ABCDEG\" -> encode -> {encode(alpha, 'ABCDEG')}")
+    #must print "[0, 1, 2, 3, 4, 6]"
+    print(f'"[15, 28, 25, 3]" -> decode -> {decode(alpha, [15, 28, 25, 3])}')
+    #must print "P.ZD"
 
+    print("\n")
+    #CHIFFRE / DECHIFFRE CESAR
 
-    #for key, value in alpha.items():
-    #    print (key, value)
-    #for key, value in alpha_inv.items():
-    #    print (key, value)
-    
-
-
-    
-    print(encode(alpha, "ABCDEG"))
-    print(decode(alpha_inv, [0, 12, 25, 28]))
-    
-    mot_test = "FAIT CHIER"
+    message = "FAIT CHIER"
     cle = 5
-    test_1 = chiffre_cesar(alpha, alpha_inv, mot_test, cle)
-    test_2 = dechiffre_cesar(alpha, alpha_inv, test_1, cle)
-    print(test_1, test_2)
+    chiffre = chiffre_cesar(alpha, message, cle)
+    dechiffre = dechiffre_cesar(alpha, chiffre, cle)
+    print(f"message: {message}, key: {cle}")
+    print(f'"{message}" -> chiffre cesar -> "{chiffre}" -> dechiffre cesar -> "{dechiffre}"')
     
 
+    text_chiffred_by_cesar = ""
 
-    a = plus_frequent(alpha, "aabbccc")
-    print(a)
+    with open("docs-tp0/affine/enc_cesar.txt", 'r') as file:
+        for line in file:
+            text_chiffred_by_cesar += line
+        
+    a = crack_cesar(alpha, text_chiffred_by_cesar)
+    print("\nA text cracked by cesar:\n", a)
 
-    b = "HQLJPDAFKLIIUHAOHVALQIRUPDWLRQVAHQAIDLVDQWASDVVHUAXQAFRXUDQWAHOHFWULTXHADAWUDYHUVAXQHAVHULHAGHAFRPSRVDQWVCAFHAFRXUDQWAHVWAWUDQVPLVAHQASUHVVDQWAXQHAOHWWUHAVXUAOHAFODYLHUAALOAWUDYHUVHAXQAUHVHDXAFRPSOHHAGHAILOVASXLVADOOXPHAXQHAODPSHATXLALQGLTXHAODAOHWWUHAFKLIIUHHCAOHASUHPLHUAFRPSRVDQWAGXAUHVHDXAHVWAXQHAVHULHAGHAURXHVADGMDFHQWHVADSSHOHHVAAURWRUVAATXLAFRQWLHQQHQWAOHVAILOVAHOHFWULTXHVAXWLOLVHVASRXUAFKLIIUHUAOHAPHVVDJHCAOHVAURWRUVAWRXUQHQWAPRGLILDQWAODAFRQILJXUDWLRQAFRPSOH HAGXAUHVHDXAFKDTXHAIRLVATXBXQHAOHWWUHAHVWAWDSHHCAHQLJPDAXWLOLVHAKDELWXHOOHPHQWAXQHADXWUHAURXHADSSHOHHAAUHIOHFWHXUAAHWAXQAFRPSRVDQWADSSHOHAAWDEOHDXAGHAFRQQH LRQAAFHATXLASHUPHWAGHAUHQGUHASOXVAFRPSOH HAHQFRUHAOHASURFHVVXVAGHAFKLIIUHPHQWC"
 
 
-    
-    c = plus_frequent(alpha, b)
-    print(c)
-    decalage = (alpha[c] - alpha[' ']) % NB_CHAR
-    
-    
-    b_dechiffre = dechiffre_cesar(alpha, alpha_inv, b, decalage)
-    print(b_dechiffre)
-    
-    
-    
-    
-    
-    
-    e = deux_plus_frequent(dico, text: str) -> tuple[int]:
-    
-    
-    
 
 
 
