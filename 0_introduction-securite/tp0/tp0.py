@@ -13,6 +13,17 @@ def dict_inverser(dico: dict) -> dict:
     return dico_return
 
 
+def char_frequency(c: str, text: str) -> int:
+    frequency = 0
+
+    for letter in text:
+        if letter == c:
+            frequency += 1
+
+    return frequency
+
+
+
 
 
 def encode(dico, text: str) -> list[int]:
@@ -72,13 +83,17 @@ def plus_frequent(text: str) -> str:
 
 
 
+def calcule_decalage(dico: dict, text: str, char_averagely_most_present: str) -> int:
+    most_appeared_char = plus_frequent(text)
+    return (dico[most_appeared_char] - dico[char_averagely_most_present]) % NB_CHAR_EXO1
+
+
 #crack a message chiffred by cesar
 def crack_cesar(dico: dict, text: str) -> str:
     #in the dico characters ensemble, the average most use character is the "space"
     #so, in a message chiffred by cesar, the char with the most occurence can be replace by the space
     
-    most_appeared_char = plus_frequent(text)
-    key = (dico[most_appeared_char] - dico[' ']) % NB_CHAR_EXO1
+    key = calcule_decalage(dico, text, ' ')
     cracked_text = dechiffre_cesar(dico, text, key)
 
     return cracked_text
@@ -128,13 +143,8 @@ def crack_affine(dico, text: str) -> str:
     #b = y -ax
 
     first_char, second_char = deux_plus_frequent(text)
-    frequence_first = frequence_second = 0
-    for letter in text:
-        if letter == first_char:
-            frequence_first += 1
-            continue
-        if letter == second_char:
-            frequence_second += 1
+    frequence_first = char_frequency(first_char, text)
+    frequence_second = char_frequency(second_char, text)
 
     print(f"first : {first_char} x{frequence_first}")
     print(f"second: {second_char} x{frequence_second}")
@@ -173,6 +183,89 @@ def dechiffre_vigenere(dico, text: str, key: str) -> str:
 
     dechiffred_message = chiffre_vigenere(dico, text, new_key)
     return dechiffred_message
+
+
+
+def ic(dico: dict, text: str) -> str:
+    
+    numerator = 0
+    denominator = 0
+
+    denominator = len(text) * (len(text) - 1 )
+
+    for letter in list(dico.keys()):
+        frequency = char_frequency(letter, text)
+        numerator += frequency * (frequency - 1)
+    
+    return numerator / denominator
+
+    # res = 0
+
+    # denominator = len(text) * (len(text) - 1 )
+
+    # for letter in list(dico.keys()):
+    #     frequency = char_frequency(letter, text)
+    #     res += (frequency * (frequency - 1)) / denominator
+    
+    # return res
+
+
+#return the text with all char at index 0 and "len_crop" multiple
+def crop_text(text: str, len_crop: int, start: int) -> str:
+    new_text = ""
+    i = start
+    while i < len(text):
+        new_text += text[i]
+        i += len_crop
+    
+    return new_text
+
+
+
+
+def calcule_longueur_cle(dico: dict, text: str) -> str:
+    i_c = 0
+    len_key = 0
+
+    while i_c < 0.075:
+        len_key += 1
+
+        new_text = crop_text(text, len_key, 0)
+        # i = 0
+        # while i < len(text):
+        #     new_text += text[i]
+        #     i += len_key
+        
+        i_c = ic(dico, new_text)
+        # print("ic =", i_c)
+    
+    print("ic =", i_c)
+    return len_key
+
+
+
+
+
+def crack_vigenere(dico: dict, text: str) -> str:
+    print("\n!!! crack_vigenere() donne ne donne pas le bon résultat !!!")
+    # text_e = encode(dico, text)
+
+    len_key = calcule_longueur_cle(dico, text)
+    key_encoded = []
+
+
+    for i in range(len_key):
+        temp_text = crop_text(text, len_key, i)
+        decalage = calcule_decalage(dico, temp_text, 'E')
+        key_encoded.append(decalage)
+    
+    key: str = decode(dico, key_encoded)
+    print("key? = ", key)
+
+    return dechiffre_vigenere(dico, text, key)
+
+
+
 
 
 
@@ -261,9 +354,32 @@ def exo2():
     #must print "NVAWBTHICBXBVUCKBUGECGX"
 
 
+    texts_encrypted: list[str] = []
+
+    for i in range(4):
+        text = ""
+        with open(f"docs-tp0/vigenere/file{i}_encrypted.txt", 'r') as file:
+            for line in file:
+                text += line
+        
+        texts_encrypted.append(text)
+
+
+    print(ic(alpha, texts_encrypted[0]))
+
+    # for i in range(4):
+    #     print(f"text {i}, len key ? = ", calcule_longueur_cle(alpha, texts_encrypted[i]))
+
+    print("\nCrack of a message chiffred by vigenere:")
+    print(crack_vigenere(alpha, texts_encrypted[0]))
+
+
+
+
 
 def main():
-    # exo1()
+    exo1()
+    print("\n!! formule du crackage du chiffrement affine incorrect !!\n")
     exo2()
 
 
