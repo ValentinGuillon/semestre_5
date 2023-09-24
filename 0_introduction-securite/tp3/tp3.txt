@@ -1,0 +1,12 @@
+
+exercice 1
+    2. un spn
+    3. substitutio/permutation en 2 tours
+    4.a. les blocs ont l'air de faire une taille de 4 bits (étant donné que le valeur dans les boites en haut vont de 0 à 15)
+      b. clé de taille 8 bits (car bloc de tailles 4, et 2 tours)
+      c. chaque tour consiste en un substitution (avec un xor) et un permutation (relation avec sbox et xobs)
+      d. la substitution est un xor en une partie de la clé, et le bloc rentré
+      e. pour la permitation, on regarde valeur, à l'index donné par la substitution
+
+exercice 2
+    1.a. 
