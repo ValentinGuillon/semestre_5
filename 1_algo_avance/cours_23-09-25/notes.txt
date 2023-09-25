@@ -1,0 +1,8 @@
+tri a bulles
+    bref, on connait
+
+tri par fusion
+    
+
+tri fusion
+quicksort
