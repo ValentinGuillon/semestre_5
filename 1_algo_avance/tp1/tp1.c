@@ -5,13 +5,16 @@
 
 
 
-
+// =====================
+// EXO 2
+// A
 int triangle_rec(int k, int n) {
     if (k == 0 || n == k) return 1;
     return triangle_rec(k-1, n-1) + triangle_rec(k, n-1);
 }
 
 
+// B
 void triangle_it(int** tab, int k, int n) {
     tab[0][0] = 1;
     for (int i = 1; i < n; i++) {
@@ -21,8 +24,6 @@ void triangle_it(int** tab, int k, int n) {
         }
     }
 }
-
-
 
 void aff(int **tab, int k, int n) {
 
@@ -34,17 +35,17 @@ void aff(int **tab, int k, int n) {
     }
 }
 
+// =====================
 
 
 
 
 
-int main(void) {
-    printf("%d\n", triangle_rec(2, 3));
-    
-    int n = 8;
-    int k = 3;
-    
+void A(int k, int n) {
+    printf("%d\n", triangle_rec(k, n));
+}
+
+void B(int k, int n) {
     int **tab;
     
     tab = malloc(n * sizeof(int *));
@@ -59,10 +60,22 @@ int main(void) {
     
     triangle_it(tab, k, n);
     aff(tab, k, n);
+}
+
+
+void exo2(void) {
     
+    int n = 8;
+    int k = 3;
+
+    A(k, n);
+    B(k, n);
     
-    
-    
+}
+
+
+int main(void) {
+    exo2();
 }
 
 
