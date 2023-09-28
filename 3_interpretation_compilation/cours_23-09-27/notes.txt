@@ -1,0 +1,82 @@
+utop
+
+PAS DE FOR ni DE WHILE EN OCAML
+
+#intruction ;;
+
+#2.3 ;; #float
+#2 + 3 ;; #somme entier
+#2.3 +. 3.4 ;; #somme float
+
+#2,3 + 2, 5 ;; #list
+-: int * int * int = (2, 5, 5)
+
+
+~"bonjour" #string
+#"bon" ^"jour" ;; #concatenation string
+
+#let pi = 3.14 #déclaration variable
+
+#let f x y = x + y ;; #déclaration fonction
+-:val f : int -> int -> int = <fun>
+#let f (x: int) (y: int): int = x + y
+-:val f : int -> int -> int = <fun>
+
+#let addition x y = x + y ;;
+-: val addition : int -> int -> int = <fun>
+#addition 2
+-: int -> int = <fun>
+#let ajoute_deux = addition 2 ;;
+-: int -> int = <fun>
+#ajouter_deux 3 ;;
+-> int = 5
+
+
+#let bonjour nom = "Bonjour" ^ nom ;;
+val hello ; string -> string = <fun>
+#let hello nom = "Bonjour" ^ nom ;;
+val hello ; string -> string = <fun>
+#let saluer (langue : string) : (string -> string) =
+match langue with
+| "francais" -> bonjour
+| _ -> hello ;;
+var saluer : string -> string -> string = <fun>
+
+#saluer_en_anglais "Jeanne" ;; (* on veut "Hello Jeanne" *)
+Error:...
+
+#let saluer_en_anglaus = saluer "anglais";;
+val saluer_en_anglais : string -> string = <fun>
+#saluer_en_anglais("Jeanne") ;;
+-= string = "Hello Jeanne"
+#saluer_en_anglais "Jeanne" ;;
+-= string = "Hello Jeanne"
+
+
+
+# let cub x = x * x * x in ( cube 2 ) + ( cube 3) ;;
+-: int = 35
+# cube 2
+Erro: Unbound value cube
+
+# let cub x = x * x * x ;;
+...
+
+
+
+#let rec somme ( n : int) : int =
+if n = 0 then
+    0
+else
+    n + somme n-1 ;;
+val somme : int -> int = <fun>
+
+
+
+
+
+
+
+
+
+
