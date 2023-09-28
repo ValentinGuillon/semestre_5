@@ -45,6 +45,7 @@ fibonacci:
 tp1:
 	$(HIDE)$(CC) $(CFLAGS) $@$(EXT) -o $@
 	@echo "$(COLOR_OPEN)$@ compiled.$(COLOR_CLOSE)"
+	@echo "$(COLOR_OPEN)!!! Il manque l'étape où on compare la vitesse d'exé des 4 exos !!!$(COLOR_CLOSE)"
 
 
 
