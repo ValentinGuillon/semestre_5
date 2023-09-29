@@ -1,8 +1,8 @@
-cours: algo avancé
+Cours: Algorithmique Avancée
 
-prof: benjamin dupont
-mail: benjamin.dupont02@univ-paris8.fr
+Prof: Benjamin Dupont
+Mail: benjamin.dupont02@univ-paris8.fr
 
-Moodle: L3BAA (clé: L3BAA)
-
-
+Moodle: L3B - Algorithmique avancée
+Lien: https://moodle.univ-paris8.fr/course/view.php?id=19464
+Clé: L3BAA
