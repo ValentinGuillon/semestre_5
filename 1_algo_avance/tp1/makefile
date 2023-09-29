@@ -3,15 +3,15 @@ HIDE = @ #mettre @ pour masquer les commandes dans le terminal, et ne rien mettr
 
 
 
-COURS= nom_du_cours
-DEVOIR= devoir_x
+COURS= algo-avancee
+DEVOIR= tp1
 PROGRAMMER= GUILLON-Valentin-20002588
 
 SRC= src/
 INCLUDE= include/
 
 DISTNAME= $(COURS)_$(DEVOIR)_$(PROGRAMMER)
-FILESFORDIST= makefile *$(EXT)
+FILESFORDIST= makefile *$(EXT) TP1.pdf
 
 
 COLOR_CLOSE= \033[0m
@@ -22,7 +22,7 @@ CC= gcc #or g++
 EXT= .c #ou .cpp
 EXTINCL= #.h ou .hpp
 CFLAGS= -Wall -Wextra -g #-fsanitize=address #-std=c++17
-PROGS= tp1 #fibonacci
+PROGS= tp1
 
 
 # exemple:
@@ -37,15 +37,11 @@ all: clean $(PROGS) clean_soft
 # 	commande
 
 
-
-fibonacci:
-	$(HIDE)$(CC) $(CFLAGS) $@$(EXT) -o $@
-	@echo "$(COLOR_OPEN)$@ compiled.$(COLOR_CLOSE)"
-
 tp1:
 	$(HIDE)$(CC) $(CFLAGS) $@$(EXT) -o $@
 	@echo "$(COLOR_OPEN)$@ compiled.$(COLOR_CLOSE)"
-	@echo "$(COLOR_OPEN)!!! Il manque l'étape où on compare la vitesse d'exé des 4 exos !!!$(COLOR_CLOSE)"
+	@echo "$(COLOR_OPEN)!!! Factorielle, résultats faux avec N > 10 (chez moi en tout cas) !!!$(COLOR_CLOSE)"
+
 
 
 

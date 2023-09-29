@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<time.h>
 
+#define N 7
+#define K 3
+#define VITESSE_AUGMENTATION_N 5
 
 
 typedef struct Vector_T {
@@ -9,11 +13,13 @@ typedef struct Vector_T {
     int *tab;
 } Vector;
 
-//affiche un entier (entre 0 et 999) à droite, sur 4 caractères 
+//affiche un entier (entre 0 et 99999) à droite, sur 4 caractères 
 void aff_value(int value) {
-    if (value > 99) printf(" ");
-    else if (value > 9) printf("  ");
-    else printf("   ");
+    if (value > 9999) printf(" ");
+    else if (value > 999) printf("  ");
+    else if (value > 99) printf("   ");
+    else if (value > 9) printf("    ");
+    else printf("     ");
     printf("%d", value);
 }
 
@@ -184,24 +190,81 @@ void D(int n) {
 
 void exo2(void) {
     
-    int n = 7;
-    int k = 3;
-    
-    printf("k = %d, n = %d\n", k, n);
+    printf("k = %d, n = %d\n", K, N);
 
-    A(n);
-    B(n);
-    C(n);
-    D(n);
+    A(N);
+    B(N);
+    C(N);
+    D(N);
     
 }
+
+
+
+void test_time(int *resultat, int n){
+    resultat[0] = n;
+    // int nb_exos = 4;
+    // char *exos[20] = {"recursif", "itératif 2D", "itératif vecteur", "factorielle"};
+    // int resultats[4];
+    clock_t time_before, time_after;
+
+    int i = 1;
+
+    time_before = clock();
+    A(n);
+    time_after = clock();
+    resultat[i++] = (int) time_after - time_before;
+
+    time_before = clock();
+    B(n);
+    time_after = clock();
+    resultat[i++] = (int) time_after - time_before;
+
+    time_before = clock();
+    C(n);
+    time_after = clock();
+    resultat[i++] = (int) time_after - time_before;
+
+    time_before = clock();
+    D(n);
+    time_after = clock();
+    resultat[i++] = (int) time_after - time_before;
+}
+
+
+
 
 
 int main(void) {
-    exo2();
+    // only calculs and printing
+    // exo2();
+
+
+    // calculs, printing and time
+    int nb_tests = 5;
+
+    char *exos[20] = {"          N", "   recursif", "     ité 2D", "ité vecteur", "factorielle"};
+    int **resultats;
+    resultats = malloc(nb_tests * sizeof(int*));
+    for (int i = 0; i < nb_tests; i++) {
+        resultats[i] = malloc(5 * sizeof(int));
+    }
+    
+    for (int i = 0, j = 1; i < nb_tests; i++, j += VITESSE_AUGMENTATION_N) {
+        test_time(resultats[i], j);
+    }
+
+    printf("\n");
+    for (int j = 0; j < 5; j++) {
+        printf("%s", exos[j]);
+        for (int i = 0; i < nb_tests; i++) {
+            printf("\t%d", resultats[i][j]);
+        }
+        printf("\n");
+        
+    }
+
 }
-
-
 
 
 
