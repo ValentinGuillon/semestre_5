@@ -1,4 +1,10 @@
 
+
+
+
+
+
+// animer_canvas_trace.js
 let cnv = document.getElementById("myCanvas");
 let ctx = cnv.getContext("2d");
 let ballSize = 30;
@@ -42,3 +48,14 @@ function update(timestamp) {
     requestAnimationFrame(update);
     }
 requestAnimationFrame(update);
+
+
+
+
+// dat.gui interface
+let param = {
+    ballSize : 30,
+};
+let gui = new dat.gui.GUI();
+gui.add(param, 'ballSize').min(10).max(100).step(1);
+// gui.add(param, 'ballSize', 10, 100, 1);
