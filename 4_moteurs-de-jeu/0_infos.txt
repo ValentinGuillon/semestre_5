@@ -1,7 +1,8 @@
 Cours: Moteurs de Jeu
 Prof: Nicolas Jouandeau
 
-Moodle: https://moodle.univ-paris8.fr/course/view.php?id=2572
+Moodle: L3 Moteurs de Jeux (NJ)
+url: https://moodle.univ-paris8.fr/course/view.php?id=2572
 Clé: CARAPUCE
 
 
