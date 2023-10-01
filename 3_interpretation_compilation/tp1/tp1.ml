@@ -38,8 +38,8 @@ let evalIntoFormat e = format e ^ " = " ^ format(Num (eval e))
 
 let e = Diff(Add(Prod(Mod(Num 8, Num 3), Num 2), Num 3), Num 4)
 ;;
-let e = Prod(Num 3, Add(Num 9, Num 8))
-;;
+(* let e = Prod(Num 3, Add(Num 9, Num 8))
+;; *)
 
 print_endline(evalIntoFormat e)
 ;;
