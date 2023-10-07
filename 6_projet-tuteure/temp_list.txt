@@ -1,0 +1,13 @@
+1. 25 (Ia pour Antichess)
+2. 29b (Compression d'image)
+3. 8 (Cocote)
+4. 5 (Hanabi)
+5. 9 (Interpreteur pour dessiner)
+6. 13 (Portal)
+
+ 43 (Etourneau)
+ 23 (Dictionnaire étymo inv)
+ 11 (Effet peinture)
+ 24 (Symbol Dynamics)
+ 34 (Puppet-Incarnation)
+ 40 (Biométrie)
