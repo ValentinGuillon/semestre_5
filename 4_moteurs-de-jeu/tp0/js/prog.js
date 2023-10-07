@@ -23,12 +23,25 @@ class myImg {
     this.img = new Image();
     this.img.src = this.imgMouse;
 
-    this.test = function () { console.log ("test");}
+    // this.test = function () { console.log ("test");}
     this.load_neutral = function () {this.img.src = this.imgMouse;}
     this.load_right = function () {this.img.src = this.imgMouseRight;}
     this.load_left = function () {this.img.src = this.imgMouseLeft;}
 
 
+    }
+
+    test() {
+        console.log ("test");
+    }
+
+    reset() {
+        this.w = 55;
+        this.h = 82;
+        this.x = (cnv.width / 2) - (this.w / 2);
+        this.y = (cnv.height / 2) - (this.h / 2);
+        this.img.src = this.imgMouse;
+        // mouseFolder.updateDisplay();
     }
 
     af(text) {
@@ -62,19 +75,29 @@ let param = {
     },
 };
 */
-mouseFolder.add(img, "x", 0, cnv.width - img.w, 1);
+mouseFolder.add(img, "x", 0, cnv.width - img.w, 1).onChange();
 mouseFolder.add(img, "y", 0, cnv.height - img.h, 1);
+mouseFolder.add(img, "w", 10, cnv.width, 1);
+mouseFolder.add(img, "h", 10, cnv.height, 1);
 mouseFolder.add(img, "test");
 mouseFolder.add(img, "load_neutral");
 mouseFolder.add(img, "load_right");
 mouseFolder.add(img, "load_left");
+mouseFolder.add(img, "reset");
 
 
 // HOM TO UPDATE imgWidth AND imgHeight WITH dat.GUI ???
 
+function updateDisplay() {
+    mouseFolder().update()
+    mouseFolder.updateDisplay();
+}
+
+
 function draw() {
     ctx.clearRect(0, 0, cnv.width, cnv.height);
     img.draw(ctx);
+    updateDisplay();
 }
 
 
