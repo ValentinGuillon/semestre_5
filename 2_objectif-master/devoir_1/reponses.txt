@@ -1,0 +1,31 @@
+
+MASTER:
+Master Conduite de Projets Informatiques
+
+
+0. Prénom, parcours jusqu’à aujourd’hui.
+Valentin GUILLON. Bac S, DUT info (abandonné au début), BTS SIO alternance (abandonné après le mois en entreprise avant la rentrée, à cause de problème dans l'entreprise (harcèlement, et rapport avec l'info peu pertinent)), Licence STN (en cours aujourd'hui (L3))
+
+1. Comment a évolué votre intérêt pour l’informatique au cours de vos années de licence ? Et pour la licence spécifique proposée par Paris 8 ?
+Je n'avait pas spécialement d'intérêt pour l'info avant la licence (c'est le domaine qui me désintéressait le moins).
+Mais je trouve l'info trop bien (interessant, et les outils qu'on peut créer pour soit avec ce qu'on apprends).
+L'approche de la licence très liéée aux jeux vidéos me parait très pertinent (c'est plus ludique).
+
+2. Si vous ne deviez retenir que 2 cours, lesquels choisiriez-vous ? Décrivez où s’est porté votre intérêt pour ces cours (thématiques, méthodes de travail, etc).
+Moteurs de jeux en L1, pour parcequ'on avant la main sur tout les aspects de la conception (réflexion, programmes, assets visuels/audios)
+Programmation d'interface (mêmes raisons)
+
+3. Parmi les réalisations/projets que vous avez créés dans le cadre de la licence, laquelle vous a particulièrement marqué ?
+Tous les projets où le produit était un jeu (pour les mêmes raison que la question précédente).
+Un projet perso, un "app" (terminal uniquement) pour apprendre à lire le japonais, qui présente des charactères jap écrit en romaji (en "français) puis leur version dans les deux symlabaires japonais
+
+4. Avez-vous déjà une idée de ce que vous souhaitez faire l’année prochaine (formation, si oui laquelle, ou autre)
+Je ne sais pas vraiment.
+Mais puisque la licence ne permet pas vraiment de débouché, je pense me diriger vers un Master
+
+5. Avez-vous pu faire des liens entre ce que vous avez appris ces dernières années et vos envies professionnelles (métier, domaine d’activité, etc) ?
+Pas vraiment (je ne sais pas trop quels genre de métiers je voudrait faire).
+
+6. Aujourd’hui, qu’auriez-vous envie d’apprendre pour compléter vos acquis ?
+Je ne sais pas.
+
