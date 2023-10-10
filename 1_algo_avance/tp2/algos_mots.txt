@@ -1,0 +1,105 @@
+1. Dulucq / Bourdin
+2. Gran / Pitteway et Green / Pitteway
+3. Berstel
+
+
+1.
+1. Dans la partie basse de l'octant (dx > 2dy) on crée un fonction
+PSIm:
+    0 -> 0^n+1 1 (ex: PSI2(0) -> 0001)
+    1 -> 0^n 1   (ex: PSI2(1) -> 001)
+  
+
+puis il montre que
+droite(dx, dy) = PSIm(mot(p, q)) x
+ | p = dy
+ | q = dy - dx%dy
+ | m = |_ (dx-dy) / dy _|
+ 
+ Exemple:
+ PSI2(010) = Concatenation (PSI2(0), PSI2(1), PSI2(0))
+           = 00010010001
+ 
+ 
+
+2. Dans la partie haute de m'octant
+PSIm:
+    0 -> 0 1^n
+    1 -> 0 1^n+1
+
+
+
+
+
+
+Exemple:
+mot (11, 3)
+p = 3, q = 1, m = 2
+mot (11, 3) = PSI2(mot(3, 1))
+
+mot (3, 1) = PSI2(mot(1, 1))
+p = 1, q = 1, m = 2
+
+mot (1, 1) = 1
+
+mot (3, 1) = PSI2(1)
+mot (3, 1) = PSI2(mot (1, 1))
+...
+
+
+
+
+
+2. Green / Pitteway
+
+même idée, on va concaténer des cahines de charactères au fur et à mesure d'opérationd sur dx, dy
+
+
+
+void droite_gp(int dx, int dy) {
+    s = "0"
+    t = "1"
+    dx -= dy
+    while (dx != dy) {
+        if (dx >dy) {
+            dx -= dy
+            t = s.t //approx entier
+            //ou
+            t = s.t[::-1] //approx entier le plus proche
+        }
+        else {
+            dy -= dx;
+            s = s.t //approx entier
+            //ou
+            s = t.s[::-11] //approx entier le plus proche
+        }
+    }
+    return (s.t)^dx  //approx entier
+    //ou
+    return (s.t[::-1])^dx//approx entier le plus proche
+}
+
+
+
+
+3. derstel
+les mots de trace w, w' et w"" (approx int, approx plus proche, approx sup)
+sons conjuguées,:
+il existe un mot f(avec des 0, 1) tel que fw = w'f
+il existe un mot g tel que gw = g''w
+
+Proposition:
+si |_f_| := l, alors
+dx * l + |_dx/2_| CONGRU 0[dx]
+
+Exemple: droite (11, 3)
+3l + 6 CONGRU 0[11]
+3l CONGRU -5[11]
+3l CONGRU 6[11]
+l CONGRU 2[11]
+l -> 2 (ou 12, 24...) (mais on garde le plus petit)
+
+fw  = 01 00010001001
+w'f = 01000100010 01
+
+

@@ -1,0 +1,48 @@
+
+4.
+angel & morrison
+
+
+idée:
+calculer le pgcd de dx et dy (notons le d)
+
+
+on va cualculer la droite discrète de pense (dx/d, dy/d) par l'algo de bresenham, et répeter le même tracé d fois
+
+ex: pour tracer la droite de pente
+dx = 6; dy = 22
+pgcd =(6, 22) = 2
+
+on va tracer 2 foid la droite de pente (3, 11)
+
+
+exemple 2:
+droite dx=8, dy=6
+pgcd(8, 6) = 2
+
+
+
+5.
+chercher ailleurs et autrement
+
+
+dans la partie basse (0 < dy < 2dy < dx)
+    solitaire -> oblique
+    groupé -> horizontal
+dans la partie haute (0 < dy < dx < 2dy)
+    solitaire -> horizontal
+    groupé -> oblique
+
+exemple:
+droite (11, 3) est dans la partie basse ((dx = 11) > (2*dy = 6))
+          ..
+      ....
+  ....
+..
+
+
+a = courte
+b = longue
+a*(dy * (dx-
+
+
