@@ -10,7 +10,7 @@ ctx.imageSmoothingEnabled = false;
 
 
 class myImg {
-    constructor(imgSrc = null, w = 25, h = 25) {
+    constructor(imgSrc, w = 25, h = 25) {
     this.defaultW = w;
     this.defaultH = h
     this.w = w;
@@ -38,22 +38,16 @@ class myImg {
 }
 
 class myAnimatedImg extends myImg {
-    constructor(/*spritesW = null, spritesH = null,*/ sprites = [], w = 25, h = 25) {
-        // myImg.call(this, sprites[0], w, h);
+    constructor(sprites = [], w = 25, h = 25) {
         super(sprites[0], w, h);
         this.sprites = sprites;
-        // this.spritesW = spritesW;
-        // this.spritesH = spritesH;
     }
 
-    next_frame(cnv) {
-        size = this.sprites.length
-        next = this.sprites.slice(0, 1)
-        this.sprites = this.sprites.slice(1, -1)
-        this.sprites.push(next)
-        this.img.src = next
+    next_frame() {
+        let next = this.sprites.shift();
+        this.sprites.push(next);
+        this.img.src = next;
     }
-
 }
 
 
@@ -62,39 +56,50 @@ let imgName = "pp-a_pp_walking_";
 let ext = ".png";
 let sprites = [];
 for (let i = 0; i < 8; i++) {
-    sprites.push(imgName + (i+1) + ext);
+    sprites.push("assets/" + imgName + (i+1) + ext);
 }
 
+// console.log(sprites)
 
-let img = new myAnimatedImg(sprites)
+
+let imgAnimated = new myAnimatedImg(sprites, 100, 100)
 let gui = new dat.gui.GUI();
 
 let imgFolder = gui.addFolder("Perso");
 imgFolder.open()
 
 
-imgFolder.add(img, "x", 0, cnv.width - img.w, 1);
-imgFolder.add(img, "y", 0, cnv.height - img.h, 1);
-imgFolder.add(img, "w", 10, cnv.width, 1);
-imgFolder.add(img, "h", 10, cnv.height, 1);
-imgFolder.add(img, "reset");
+imgFolder.add(imgAnimated, "x", 0, cnv.width - imgAnimated.w, 1);
+imgFolder.add(imgAnimated, "y", 0, cnv.height - imgAnimated.h, 1);
+imgFolder.add(imgAnimated, "w", 10, cnv.width, 1);
+imgFolder.add(imgAnimated, "h", 10, cnv.height, 1);
+imgFolder.add(imgAnimated, "reset");
 
 
-function updateDisplay() {
+
+function updateGui() {
     imgFolder.updateDisplay();
+}
+
+
+
+function updates() {
+    imgAnimated.next_frame();
 }
 
 
 function draw() {
     ctx.clearRect(0, 0, cnv.width, cnv.height);
-    img.draw(ctx);
-    updateDisplay();
+    imgAnimated.draw(ctx);
 }
 
 
 function update() {
+    updates()
     draw();
-    requestAnimationFrame(update);
+    updateGui();
 }
 
-requestAnimationFrame(update);
+
+// requestAnimationFrame(update);
+setInterval(update, 100);

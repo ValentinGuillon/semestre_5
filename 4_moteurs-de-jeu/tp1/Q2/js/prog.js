@@ -8,9 +8,15 @@ ctx.imageSmoothingEnabled = false;
 
 
 
+function getRandom(min, max) {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
 
 class myImg {
-    constructor(imgSrc = null, w = 25, h = 25) {
+    constructor(imgSrc, w = 25, h = 25) {
+    this.defaultW = w;
+    this.defaultH = h;
     this.w = w;
     this.h = h;
     this.imgSrc = imgSrc;
@@ -23,8 +29,8 @@ class myImg {
     }
 
     reset() {
-        this.w = 55;
-        this.h = 82;
+        this.w = this.defaultW;
+        this.h = this.defaultH;
         this.x = (cnv.width / 2) - (this.w / 2);
         this.y = (cnv.height / 2) - (this.h / 2);
         this.img.src = this.img;
@@ -35,54 +41,166 @@ class myImg {
     }
 }
 
-class myAnimatedImg {
-    constructor(imgSrc = null, w = 25, h = 25, sprites = []) {
-        myImg.call(this, imgSrc, w, h);
-        this.sprites = sprites;
+
+class flakeCircle {
+    constructor(x = 0, speed = 1, size = 1) {
+        this.x = x;
+        this.y = 0;
+        this.size = size;
+        this.speed = speed;
+        this.isDead = false;
     }
 
-    next_frame(cnv) {
-        size = this.sprites.length
-        next = this.sprites.slice(0, 1)
-        this.sprites = this.sprites.slice(1, -1)
-        this.sprites.push(next)
-        this.img.src = next
+    drop(cnv) {
+        if (this.isDead) { return; }
+
+        this.y += this.speed;
+        if (this.y > cnv.height) {
+            this.isDead = true;
+        }
     }
+
+    draw(ctx) {
+        if (this.isDead) { return; }
+        //circle
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, 2*Math.PI);
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fill();
+        ctx.closePath();
+        //rectangle
+        // ctx.beginPath();
+        // ctx.fillStyle = "#FFFFFF";
+        // ctx.fillRect(this.x, this.y, this.width, this.height);
+        // ctx.closePath();
+    }
+}
+
+
+class snowAnim {
+    constructor(min = 1, max = 10) {
+        this.minFlakesByWave = min;
+        this.maxFlakesByWave = max;
+        // this.next_drop = 10; //time
+        this.drop = true;
+        this.pause = false;
+        this.flakes = []
+        this.nb_flakes = 0
+    }
+
+
+    clear_flakes() { this.flakes = []; }
+
+    remove_dead_flakes() {
+        //remove dead flakes
+        let iDeadFlakes = []
+        for (let i = 0; i < this.flakes.length; i++) {
+            if (this.flakes[i].isDead) {
+                iDeadFlakes.push(i);
+            }
+        }
+
+        for (let i = iDeadFlakes.length - 1; i >= 0; i--) {
+            this.flakes.splice(iDeadFlakes[i], 1);
+        }
+
+        this.nb_flakes = this.flakes.length;
+    }
+
+    add_flakes(cnv) {
+        this.remove_dead_flakes();
+
+        if (this.pause || !this.drop) { return; }
+        //add new flakes
+        let add = getRandom(this.minFlakesByWave, this.maxFlakesByWave);
+
+        for (let i = 0; i < add; i++) {
+            let x = getRandom(0, cnv.width);
+            let speed = getRandom(1, 10);
+            let size = getRandom(4, 10);
+            let flake = new flakeCircle(x, speed, size);
+            // flake.draw(ctx);
+            this.flakes.push(flake);
+        }
+
+        this.remove_dead_flakes();
+
+    }
+
+
+    draw(ctx, cnv) {
+        for (let i = 0; i < this.flakes.length; i++) {
+            if (!this.pause) {
+                this.flakes[i].drop(cnv);
+            }
+            this.flakes[i].draw(ctx);
+        }
+
+    }
+
+    
+
+
 
 }
 
 
-let img = new myImg(cnv, ctx);
+
+
+
+let imgName = "paysage";
+let ext = ".png";
+let sprite = "assets/" + imgName + ext;
+
+
+let snow = new snowAnim();
+let img = new myImg(sprite, cnv.width, cnv.height);
 let gui = new dat.gui.GUI();
 
-let imgFolder = gui.addFolder("Mouse");
-imgFolder.open()
+let snowFolder = gui.addFolder("Snow");
+snowFolder.open()
 
 
-imgFolder.add(img, "x", 0, cnv.width - img.w, 1).onChange();
-imgFolder.add(img, "y", 0, cnv.height - img.h, 1);
-imgFolder.add(img, "w", 10, cnv.width, 1);
-imgFolder.add(img, "h", 10, cnv.height, 1);
-imgFolder.add(img, "reset");
+snowFolder.add(snow, "minFlakesByWave", 1, 100, 1).onChange(val => {
+    if (val > snow.maxFlakesByWave) {
+        snow.maxFlakesByWave = val;
+    }
+})
+snowFolder.add(snow, "maxFlakesByWave", 1, 100, 1).onChange(val => {
+    if (val < snow.minFlakesByWave) {
+        snow.minFlakesByWave = val;
+    }
+})
+snowFolder.add(snow, "pause").name("Flakes freeze");
+snowFolder.add(snow, "drop").name("Create new flakes");
+snowFolder.add(snow, "clear_flakes");
+snowFolder.add(snow, "nb_flakes");
 
 
 
 
-function updateDisplay() {
-    imgFolder.updateDisplay();
+
+
+function updateGui() {
+    snowFolder.updateDisplay();
 }
 
+function add_flakes() {
+    snow.add_flakes(cnv);
+}
 
 function draw() {
     ctx.clearRect(0, 0, cnv.width, cnv.height);
     img.draw(ctx);
-    updateDisplay();
+    snow.draw(ctx, cnv);
 }
+
 
 
 function update() {
+    add_flakes();
     draw();
-    requestAnimationFrame(update);
+    updateGui();
 }
 
-requestAnimationFrame(update);
+setInterval(update, 50);
