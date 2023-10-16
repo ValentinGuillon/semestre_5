@@ -1,0 +1,90 @@
+
+
+
+
+Question:
+Comment aller chercher le sommet no traité à la plus courte distance pour le traiter ensuite ?
+
+I. Ecrire une fonction minDistance qui parcours les sommets adjacents et sélectionne celui à distance la plus courte
+
+
+
+#define N 5 //nb arrete
+#define INF 9999
+
+
+
+void dijkstra(graphe *g, int src) {
+    int *dist = malloc(N * sizeof(int));
+    int *acces = malloc(N * sizeof(int));
+    int i, j, count;
+    for (i = 0; i < N; i++) {
+        dist[i] = INF;
+        access[i] = 0;
+    }
+    dist[src] = 0;
+    
+    for (count = 0; count < n-1; count++) {
+        int u = minDistance(dist, access);
+        access[u] = 1;
+        for (j = 0; j < N; j++) {
+            if (acces[j] == 0) {
+                // && (poids u->j =! 0)
+                // && (dist[u] + poinds u->j) < dist[j])
+                dist[j] = dist[u] + (poids u->j) 
+            }
+        }
+    }
+    //afficher tableau
+    // free dist et access
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+II. Sinon, I faut stocker les sommets adjacents dans une structure adaptée appelée file de priorité
+C'est une file dans laquelle les éléments de plus petite valeur sont prioritaires.
+
+Inplémentations possibles:
+1. Tableau / Vecteur
+    Enfiler: (peu couteux) rajouter un élément à la fin
+    Déilfer: (couteux) Il faut parcourir le tableau, trouver le minimun, et le supprimer. O(n)
+
+2. Tableau trié
+    Enfiler: (couteux) Il faut parcourir le tableau, pour savoir où placer l'élément
+    Défiler: (peu couteux) On retire le premier élément
+
+3. Tas binaire
+    C'est un arbre binaire presque complet (tout est rempli sauf éventuellement le dernier étage) dans lequel chaque noeud est inférieur à ses enfant (la têche piroritaire/ le minimun est la racine
+    
+    Enfiler: On insère où  il y a une place libre, en veillant à garder la propriété de tas, quitte à permuter des noeuds
+    
+    Dééfiler: On enlève la racine. On place le dernier noeud, en bas à droite, à la place de la racine, et on compare {racine, racine fils gauche, racine fils gauche}
+    
+    
+    
+    
+
+
+Matrices d'adjacence
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
