@@ -1,0 +1,3 @@
+(executable
+  (name sierpinsky)
+  (promote (until-clean)))
