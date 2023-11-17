@@ -1,4 +1,0 @@
-https:
-https://github.com/ValentinGuillon/bubble-shooter
-ssh:
-git@github.com:ValentinGuillon/bubble-shooter.git
